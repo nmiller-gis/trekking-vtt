@@ -5,7 +5,7 @@ services:
     ports:
       - "${PORT:-3001}:3001"
     volumes:
-      - db_data:/app/server/data
+      - ./data:/app/server/data
     environment:
       NODE_ENV: production
       PORT: 3001
@@ -19,5 +19,3 @@ services:
       retries: 3
       start_period: 10s
 
-volumes:
-  db_data:

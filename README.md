@@ -50,6 +50,52 @@ Six stations with pre-wired action buttons (auto-fills attribute + discipline + 
 
 ---
 
+## Docker Deployment
+
+**First-time setup:**
+
+```bash
+cp .env.example .env
+# Edit .env — set JWT_SECRET to a long random string:
+#   openssl rand -hex 32
+docker compose up -d
+```
+
+**Updating the app** (rebuilds the image, data survives):
+
+```bash
+git pull
+docker compose up --build -d
+```
+
+**Data persistence:**
+
+The SQLite database lives at `./data/lcars.db` on the host. This directory is bind-mounted into the container, so accounts and campaign state survive image rebuilds.
+
+- `docker compose up --build -d` — safe; data is untouched
+- `docker compose down` — safe; data is untouched
+- `docker compose down -v` — **do not use**; `-v` removes Docker-managed volumes (not applicable here, but old habit to avoid)
+- Deleting `./data/lcars.db` — resets everything (accounts, rooms, all game state)
+
+**Backing up:**
+
+```bash
+# Before a session or before a risky update:
+cp data/lcars.db data/lcars.db.bak
+
+# Restore:
+cp data/lcars.db.bak data/lcars.db
+# Then restart: docker compose restart
+```
+
+**Inspecting the database** (requires sqlite3):
+
+```bash
+sqlite3 data/lcars.db .tables
+```
+
+---
+
 ## Stack
 
 | Layer | Tech |

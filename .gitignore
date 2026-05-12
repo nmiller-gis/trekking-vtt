@@ -2,6 +2,7 @@ node_modules/
 dist/
 shared/dist/
 server/data/
+data/*.db
 *.local
 .env
 .claude/
