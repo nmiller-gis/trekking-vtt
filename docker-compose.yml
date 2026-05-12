@@ -1,5 +1,6 @@
 services:
   app:
+    image: ${IMAGE:-ghcr.io/nmiller-gis/trekking-vtt:latest}
     build: .
     ports:
       - "${PORT:-3001}:3001"
