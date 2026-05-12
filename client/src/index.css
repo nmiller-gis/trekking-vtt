@@ -1,0 +1,107 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    color: #ffffff;
+    font-family: 'Share Tech Mono', monospace;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  #root {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+  }
+
+  input, select, textarea, button {
+    font-family: inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #111111;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #FF9900;
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .lcars-panel {
+    @apply bg-lcars-panel border border-lcars-border rounded;
+  }
+
+  .lcars-btn {
+    @apply px-4 py-2 rounded font-lcars uppercase tracking-wider text-sm font-bold
+           transition-all duration-150 cursor-pointer border-0 outline-none;
+  }
+
+  .lcars-btn-amber {
+    @apply lcars-btn bg-lcars-amber text-black hover:brightness-110 active:brightness-90;
+  }
+
+  .lcars-btn-blue {
+    @apply lcars-btn bg-lcars-blue text-black hover:brightness-110 active:brightness-90;
+  }
+
+  .lcars-btn-red {
+    @apply lcars-btn bg-lcars-red text-white hover:brightness-110 active:brightness-90;
+  }
+
+  .lcars-btn-ghost {
+    @apply lcars-btn bg-transparent border border-lcars-amber text-lcars-amber
+           hover:bg-lcars-amber hover:text-black;
+  }
+
+  .lcars-label {
+    @apply text-xs uppercase tracking-widest text-lcars-blue;
+  }
+
+  .lcars-value {
+    @apply font-lcars text-lcars-gold text-lg;
+  }
+
+  .lcars-input {
+    @apply bg-lcars-border border border-lcars-amber text-white px-3 py-2 rounded
+           outline-none focus:border-lcars-gold w-full placeholder-gray-600;
+  }
+
+  .lcars-header {
+    @apply text-lcars-amber uppercase tracking-widest text-sm font-bold;
+  }
+
+  .station-panel {
+    @apply lcars-panel p-4 h-full overflow-y-auto;
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.lcars-blink {
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes scan-line {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}

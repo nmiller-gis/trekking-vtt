@@ -1,0 +1,9 @@
+node_modules/
+dist/
+shared/dist/
+server/data/
+*.local
+.env
+.claude/
+*.pdf
+*.txt
