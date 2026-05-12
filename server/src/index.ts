@@ -27,6 +27,7 @@ const io = new Server<ClientToServerEvents, ServerToClientEvents, InterServerEve
 });
 
 app.use(express.json());
+app.get('/api/health', (_req, res) => res.json({ ok: true }));
 app.use('/api/auth', authRouter);
 app.use('/api/rooms', roomsRouter);
 
