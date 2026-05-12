@@ -3,6 +3,7 @@ dist/
 shared/dist/
 server/data/
 data/*.db
+HANDOFF.md
 *.local
 .env
 .claude/
