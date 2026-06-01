@@ -5,9 +5,13 @@ import { getSocket } from '../../hooks/useSocket';
 const NAMED_SPENDS = [
   { label: 'Obtain Information', cost: 1, reason: 'Obtain Information' },
   { label: 'Extra Minor Action', cost: 1, reason: 'Extra Minor Action' },
+  { label: 'Disarm (1-handed)', cost: 1, reason: 'Disarm (1-handed)' },
   { label: 'Create Trait', cost: 2, reason: null },   // null = prompts for name
   { label: 'Swift Action (+1 Difficulty)', cost: 2, reason: 'Swift Action' },
   { label: 'Keep Initiative', cost: 2, reason: 'Keep Initiative' },
+  { label: 'Reduce Time', cost: 2, reason: 'Reduce Time' },
+  { label: 'Added Severity (combat, max +2)', cost: 2, reason: 'Added Severity' },
+  { label: 'Disarm (2-handed)', cost: 2, reason: 'Disarm (2-handed)' },
 ] as const;
 
 export default function MomentumSpendMenu() {

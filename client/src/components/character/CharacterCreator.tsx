@@ -20,26 +20,34 @@ const ROLES = [
 ];
 
 const TALENTS: Talent[] = [
-  { name: 'Bold', description: 'Once per scene, may reroll one die on a task where you risked complication.' },
-  { name: 'Cautious', description: 'Reduce complication range by 1 on tasks using a specific discipline.' },
-  { name: 'Collaboration', description: 'When assisting another character you may spend Momentum; the assisted character benefits.' },
-  { name: "Dauntless", description: 'Ignore penalties from fear or intimidation effects.' },
+  { name: 'Back Up Plans', description: 'Requires Control 9+. Whenever you or an ally fail a task (so long as you are present in the scene), you may add 1 point to the group\'s Momentum pool.' },
+  { name: 'Bold', description: 'Choose a department when taking this talent. Whenever you attempt a task from that department and buy one or more d20s by adding Threat, you may re-roll a single d20. May be taken once per department; cannot coexist with Cautious in the same department.' },
+  { name: 'Cautious', description: 'Choose a department when taking this talent. Whenever you attempt a task from that department and buy one or more d20s by spending Momentum, you may re-roll a single d20. May be taken once per department; cannot coexist with Bold in the same department.' },
+  { name: 'Close Protection', description: 'Requires Security 4+. When you make a successful Attack, you may spend 1 Momentum to protect a single ally within Close range. The next Attack against that ally before the start of your next turn increases in Difficulty by 1.' },
+  { name: 'Collaboration', description: 'Choose a department when taking this talent. Whenever an ally attempts a task using that department, you may spend 1 Momentum (Immediate) to allow them to use your rating for that department and one of your relevant focuses.' },
+  { name: 'Computer Expertise', description: 'Requires Science 2+. Whenever you attempt a task that involves the programming or study of a computer system, the first bonus d20 you purchase is free.' },
+  { name: 'Dauntless', description: 'Whenever another character attempts to intimidate or threaten you, you may suffer 2 Stress to ignore their attempt.' },
   { name: 'Duellist', description: 'When in personal combat, may reroll one d20.' },
-  { name: 'Empath', description: '+1 bonus die when rolling Insight + Command to read emotions.' },
+  { name: 'Durability', description: 'Requires Augment or Cyborg trait. Whether through genetic engineering or cybernetic implants, you\'re more durable than most people. You gain Protection 2.' },
+  { name: 'Empathy', description: 'Sense the emotions of most living beings nearby, and communicate telepathically with other empaths, telepaths, and those with whom you are extremely familiar. You cannot choose not to sense the emotions of those nearby, except for those resistant to telepathy. Picking out a specific individual in a crowd or blocking out nearby emotions requires effort and a task.' },
   { name: 'Energetic', description: 'Additional minor action in combat.' },
-  { name: 'Field Medicine', description: 'May use Medicine even without equipment at increased difficulty.' },
-  { name: 'Fly-By', description: 'When piloting, can create an advantage once per scene for free.' },
+  { name: 'Field Medicine', description: 'Requires Medicine 3+. When attempting a Medicine task, you may ignore any increase in Difficulty or complication range for working without the proper tools or equipment.' },
+  { name: 'Fly-By', description: 'Requires Conn 2+. Whenever you use the Swift Action Momentum spend, you do not increase the Difficulty of the second task if one of the tasks you attempt is to pilot a vessel.' },
+  { name: 'Get Down!', description: 'Requires Security 2+. You and any allies within Close range gain +1 Protection while in Cover.' },
   { name: 'Hacker', description: '+1 bonus die on tasks to access, reprogram, or disable computer systems.' },
   { name: 'Infiltration', description: '+1 bonus die when moving undetected or in disguise.' },
-  { name: 'Intense Scrutiny', description: 'When making a careful observation, gain +2 bonus dice.' },
-  { name: "Jack of All Trades", description: 'May substitute any discipline for another at +1 difficulty.' },
-  { name: 'Precise Evasion', description: 'When piloting evasive action, reduce difficulty by 1.' },
-  { name: "Resolute", description: 'Increase Resistance by +1.' },
+  { name: 'Intense Scrutiny', description: 'Requires Engineering 3+ or Science 3+. Whenever you succeed at a task using Reason or Control as part of an extended task, you ignore any Resistance on that extended task.' },
+  { name: 'Jack of All Trades', description: 'May substitute any discipline for another at +1 difficulty.' },
+  { name: 'Precise Evasion', description: 'Requires Conn 4+. Whenever you use the Evasive Action major action, the ship does not suffer the increased Attack Difficulty normally caused by Evasive Action.' },
+  { name: 'Resolute', description: 'Requires Human species (or GM permission). Your Maximum Stress increases by an amount equal to your Command rating.' },
   { name: 'Scholar', description: '+1 bonus die when conducting research or recalling obscure facts.' },
   { name: 'Shooter', description: '+1 bonus die on ranged weapon attacks.' },
   { name: 'Tactician', description: 'May spend Momentum to remove an enemy advantage.' },
-  { name: 'Technical Expertise', description: '+1 bonus die when repairing or modifying equipment.' },
-  { name: 'Veteran', description: 'Reduce threat generated by complications by 1.' },
+  { name: 'Technical Expertise', description: 'Whenever you attempt a task assisted by the ship\'s Computers or Sensors, you may re-roll one d20 in your pool, or you may allow the ship to re-roll its d20.' },
+  { name: 'Telepathy', description: 'Sense the surface thoughts and emotions of nearby beings, and communicate telepathically with other empaths and telepaths. Cannot choose not to sense the thoughts or emotions of those nearby, except for those resistant to telepathy. Picking out a specific individual in a crowd, searching for specific memories, or blocking out nearby minds requires effort and a task.' },
+  { name: 'Testing a Theory', description: 'Requires Science 2+. When you attempt a task using Engineering or Science, the first bonus d20 you purchase is free, so long as you succeeded at a previous task in the same scientific or technological field earlier in the same adventure. If you created a trait representing a hypothesis, you may also re-roll one d20 on tasks related to that hypothesis.' },
+  { name: 'Veteran', description: 'Requires Veteran career step (or GM discretion). Whenever you spend Determination, roll a d20. If the result is equal to or less than your Control rating, you immediately regain that point of Determination.' },
+  { name: 'Walking Encyclopedia', description: 'Requires Science 2+ and Reason 9+. Once per session, when you attempt a task, you may spend 2 Momentum (Immediate) to gain an additional focus for the remainder of the session. However, any task using that focus increases its complication range by 1, as you are not a true expert on that subject.' },
 ];
 
 type Step = 'identity' | 'attributes' | 'disciplines' | 'values' | 'focuses' | 'talents' | 'review';
@@ -133,7 +141,7 @@ export default function CharacterCreator({ onCancel }: Props) {
   const submit = () => {
     const finalSpecies = species === 'Other' ? customSpecies : species;
     const stress = attributes.fitness;
-    const resistance = disciplines.security;
+    const resistance = 0;
 
     const charData: Omit<Character, 'id' | 'playerId'> = {
       name: name.trim(),

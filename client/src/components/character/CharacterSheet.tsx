@@ -135,7 +135,7 @@ export default function CharacterSheet({ character, editable = false, onCreateNe
         <div>
           <div className="lcars-label mb-1">Determination</div>
           <div className="flex gap-1 mb-1">
-            {[0, 1, 2].map((i) => (
+            {[0, 1, 2, 3].map((i) => (
               <div
                 key={i}
                 className={`w-6 h-6 rounded-full border-2 ${i < char.determination
@@ -176,7 +176,15 @@ export default function CharacterSheet({ character, editable = false, onCreateNe
               </button>
             )
           )}
-          <div className="text-xs text-gray-500 mt-1">Resistance: {char.resistance}</div>
+          <div className="text-xs text-gray-500 mt-1 flex items-center gap-1">
+            <span>Resistance: {char.resistance}</span>
+            {editable && (
+              <>
+                <button className="lcars-btn-ghost text-xs px-1 py-0" onClick={() => update({ resistance: Math.max(0, char.resistance - 1) })}>−</button>
+                <button className="lcars-btn-ghost text-xs px-1 py-0" onClick={() => update({ resistance: char.resistance + 1 })}>+</button>
+              </>
+            )}
+          </div>
         </div>
       </div>
 
